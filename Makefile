@@ -1,30 +1,34 @@
 
-# Compilador y flags
-CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -Iinclude -Ilib/MLX42/include -Iget_next_line -Ift_printf
+# 🛠️ Compiler and flags
+CC      = gcc
+CFLAGS  = -Wall -Wextra -Werror -I include -I lib/MLX42/include -I get_next_line -I ft_printf
 
+# 🧱 Object folders
+OBJ_DIR         = obj
+OBJ_SUBDIRS     = $(OBJ_DIR)/src $(OBJ_DIR)/utils
 
+# 📁 Paths
+SRC_DIR         = src
+GNL_DIR         = get_next_line
+PRINTF_DIR      = ft_printf
+MLX_DIR         = lib/MLX42
 
-# Paths
-MLX_DIR     = lib/MLX42
-GNL_DIR     = get_next_line
-PRINTF_DIR  = ft_printf
-SRC_DIR     = src
-
-# Archivos fuente por módulo
-SRCS_MAIN   = \
+# 🧩 Source files
+SRC_FILES = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/render_map.c \
 	$(SRC_DIR)/moves.c \
 	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/libft_utils.c \
 	$(SRC_DIR)/parsing.c \
 	$(SRC_DIR)/bonus.c \
 	$(SRC_DIR)/validate_playability.c \
-	$(SRC_DIR)/read_map.c 
-SRCS_GNL    = \
+	$(SRC_DIR)/validate_utils.c \
+	$(SRC_DIR)/read_map.c
+
+UTILS_FILES = \
 	$(GNL_DIR)/get_next_line.c \
-	$(GNL_DIR)/get_next_line_utils.c 
-SRCS_PRINTF = \
+	$(GNL_DIR)/get_next_line_utils.c \
 	$(PRINTF_DIR)/ft_printf.c \
 	$(PRINTF_DIR)/ft_print_char.c \
 	$(PRINTF_DIR)/ft_print_hex.c \
@@ -36,38 +40,61 @@ SRCS_PRINTF = \
 	$(PRINTF_DIR)/ft_putnbr_fd.c \
 	$(PRINTF_DIR)/ft_putchar_fd.c
 
-# Archivos finales
-SRC = $(SRCS_MAIN) $(SRCS_GNL) $(SRCS_PRINTF)
-OBJ = $(SRC:.c=.o)
+# 🧱 Object files
+OBJ_FILES_SRC   = $(patsubst %.c, $(OBJ_DIR)/src/%.o, $(notdir $(SRC_FILES)))
+OBJ_FILES_UTILS = $(patsubst %.c, $(OBJ_DIR)/utils/%.o, $(notdir $(UTILS_FILES)))
+OBJS            = $(OBJ_FILES_SRC) $(OBJ_FILES_UTILS)
 
-# Ejecutable
-NAME = so_long
+# 🕹️ Executable
+NAME        = so_long
+MLX_FLAGS   = -L$(MLX_DIR) -lmlx42 -ldl -lglfw -pthread
 
-# Librerías
-MLX_FLAGS = -Llib/MLX42 -lmlx42 -ldl -lglfw -pthread
+# 🚀 Default rule
+all: check_changes $(NAME)
 
+# ℹ️ Compilation banner
+check_changes:
+	@if ! $(MAKE) --question $(NAME); then \
+		echo "========================="; \
+		echo " 🕹️  Building SO_LONG"; \
+		echo " 🔧  Using MLX42"; \
+		echo " 🗓️  $(shell date +'%d-%m-%Y %H:%M:%S')"; \
+		echo "========================="; \
+	else \
+		echo "✅ No changes detected. Everything is up to date."; \
+	fi
 
+# 🔨 Linking
+$(NAME): $(OBJ_DIR) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLX_FLAGS)
+	@echo "✅ Compilation finished: $(NAME)"
 
-# **************************************************************************** #
-#                                   REGLAS                                     #
-# **************************************************************************** #
+# 📁 Create object folder structure
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)/src $(OBJ_DIR)/utils
 
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	@$(MAKE) -C $(MLX_DIR)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(MLX_FLAGS)
-
-%.o: %.c
+# 🔧 Compile src files
+$(OBJ_DIR)/src/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# 🔧 Compile utils files (gnl and printf)
+$(OBJ_DIR)/utils/%.o: $(GNL_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/utils/%.o: $(PRINTF_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# 🧽 Cleanup
 clean:
-	rm -f $(OBJ)
-	@$(MAKE) -C $(MLX_DIR) clean
+	@echo "🧹 Removing object files..."
+	@rm -f $(OBJS)
+	@echo "✅ Objects cleaned."
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "🗑️ Removing executable and object folders..."
+	@rm -f $(NAME)
+	@rm -rf $(OBJ_DIR)
+	@echo "✅ Full clean completed."
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re check_changes

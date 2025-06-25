@@ -72,7 +72,7 @@ static bool	has_valid_characters(char **map, int height)
 	return (true);
 }
 
-bool	has_required_elements(char **map, int height, t_game *game)
+static bool	has_required_elements(char **map, int height, t_game *game)
 {
 	int				x;
 	int				y;
@@ -99,18 +99,22 @@ bool	has_required_elements(char **map, int height, t_game *game)
 	return (counts.p == 1 && counts.e == 1 && counts.c >= 1);
 }
 
-bool	validate_map(t_game *game)
+bool	validate_map(const char *filename, t_game *game)
 {
+	if (game->height == 0 || !game->map || !game->map[0]
+		|| game->map[0][0] == '\0')
+		return (report_error("Map is empty"));
+	if (!has_ber_extension(filename))
+		return (report_error("File must have .ber extension"));
 	game->width = ft_strlen(game->map[0]);
 	if (!is_rectangular(game->map, game->height))
-		return (report_error("Error: Map is not rectangular"));
+		return (report_error("Map is not rectangular"));
 	if (!is_surrounded_by_walls(game->map, game->width, game->height))
-		return (report_error("Error: Map is not surrounded by walls"));
+		return (report_error("Map is not surrounded by walls"));
 	if (!has_valid_characters(game->map, game->height))
-		return (report_error("Error: Map contains invalid characters"));
+		return (report_error("Map contains invalid characters"));
 	if (!has_required_elements(game->map, game->height, game))
-		return (report_error("Error: Map must have 1 'P',
-			1 'E',and at least 1 'C'"));
+		return (report_error("Map must have 1 'P', 1 'E',and at least 1 'C'"));
 	if (!validate_playability(game))
 		return (false);
 	return (true);

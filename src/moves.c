@@ -12,25 +12,7 @@
 
 #include "so_long.h"
 
-void	render_tile(t_game *game, int x, int y)
-{
-	char	tile;
-	float	fx;
-	float	fy;
-
-	tile = game->map[y][x];
-	fx = x * TILE;
-	fy = y * TILE;
-	mlx_image_to_window(game->mlx, game->floor_img, fx, fy);
-	if (tile == '1')
-		mlx_image_to_window(game->mlx, game->wall_img, fx, fy);
-	else if (tile == 'C')
-		mlx_image_to_window(game->mlx, game->collectible_img, fx, fy);
-	else if (tile == 'E')
-		mlx_image_to_window(game->mlx, game->exit_img, fx, fy);
-}
-
-bool	can_move_to(t_game *game, int tx, int ty)
+static bool	can_move_to(t_game *game, int tx, int ty)
 {
 	char	dest;
 
@@ -48,8 +30,7 @@ bool	can_move_to(t_game *game, int tx, int ty)
 	return (true);
 }
 
-
-void	apply_movement(t_game *game, int tx, int ty)
+static void	apply_movement(t_game *game, int tx, int ty)
 {
 	char	dest;
 
@@ -75,8 +56,7 @@ void	apply_movement(t_game *game, int tx, int ty)
 	}
 }
 
-
-void	move_player(t_game *game, int dx, int dy)
+static void	move_player(t_game *game, int dx, int dy)
 {
 	int	tx;
 	int	ty;

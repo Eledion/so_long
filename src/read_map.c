@@ -85,7 +85,7 @@ static char	**load_map_lines(int fd, int *height)
 	{
 		map = append_clean_line(map, line, &lines_count, &lines_alloc);
 		if (!map)
-			break;
+			break ;
 		line = get_next_line(fd);
 	}
 	*height = lines_count;
@@ -101,13 +101,12 @@ char	**read_map(const char *filename, int *height)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("Error: no se pudo abrir el archivo %s\n", filename);
-		return NULL;
+		ft_printf("\nError: could not open the file %s\n", filename);
+		return (NULL);
 	}
 	else
-		ft_printf("Archivo %s abierto correctamente\n", filename);
+		ft_printf("File %s opened successfully\n", filename);
 	map = load_map_lines(fd, height);
 	close(fd);
-	ft_printf("Mapa cargado con éxito\n");
 	return (map);
 }

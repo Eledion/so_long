@@ -12,86 +12,63 @@
 
 #include "so_long.h"
 
-void	ft_putendl_fd(const char *s, int fd)
+bool	report_error(const char *message)
 {
-	if (!s)
-		return;
-	while (*s)
-		write(fd, s++, 1);
-	write(fd, "\n", 1);
+	ft_putendl_fd("Error", 2);
+	ft_putendl_fd(message, 2);
+	return (false);
 }
 
-char	*ft_strdup(const char *s)
+void	free_map(char **map, int height)
 {
-	unsigned int	len;
-	char			*copy;
-	unsigned int	i;
+	int	i;
 
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	copy = (char *)malloc(sizeof(char) * (len + 1));
-	if (!copy)
-		return (0);
 	i = 0;
-	while (i < len)
-	{
-		copy[i] = s[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
+	while (i < height)
+		free(map[i++]);
+	free(map);
 }
 
-static size_t	intlen(long n)
+void	close_window(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	mlx_close_window(game->mlx);
+	mlx_terminate(game->mlx);
+	free_map(game->map, game->height);
+	exit(EXIT_SUCCESS);
+}
+
+bool	has_ber_extension(const char *filename)
 {
 	size_t	len;
 
-	len = 1;
-	if (n < 0)
-	{
-		len = 2;
-		n = -n;
-	}
-	while (n > 9)
-	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
+	len = ft_strlen(filename);
+	if (len < 5)
+		return (false);
+	return (ft_strncmp(&filename[len - 4], ".ber", 4) == 0);
 }
 
-char	*ft_itoa(int n)
+void	find_player_position(t_game *game)
 {
-	int		len;
-	char	*result;
-	int		sign;
-	long	num;
+	int	x;
+	int	y;
 
-	num = (long)n;
-	sign = (num < 0);
-	len = intlen(n);
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	result[len] = '\0';
-	if (sign)
+	y = 0;
+	while (y < game->height)
 	{
-		num = -num;
-		result[0] = '-';
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'P')
+			{
+				game->px = x;
+				game->py = y;
+				return ;
+			}
+			x++;
+		}
+		y++;
 	}
-	while (len > sign)
-	{
-		result[len - 1] = num % 10 + '0';
-		num = num / 10;
-		len--;
-	}
-	return (result);
-}
-
-bool	report_error(const char *message)
-{
-	ft_putendl_fd("Error\n", 2);
-	ft_putendl_fd(message, 2);
-	return (false);
 }
