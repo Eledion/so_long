@@ -12,6 +12,22 @@
 
 #include "so_long.h"
 
+void cleanup_game(t_game *game)
+{
+    if (game->player_img)
+        mlx_delete_image(game->mlx, game->player_img);
+    if (game->exit_img)
+        mlx_delete_image(game->mlx, game->exit_img);
+    if (game->floor_img)
+        mlx_delete_image(game->mlx, game->floor_img);
+    if (game->wall_img)
+        mlx_delete_image(game->mlx, game->wall_img);
+    if (game->collectible_img)
+        mlx_delete_image(game->mlx, game->collectible_img);
+    free_map(game->map, game->height);
+}
+
+// Count every collectible.
 void	count_collectibles(t_game *game)
 {
 	int	x;
@@ -32,6 +48,7 @@ void	count_collectibles(t_game *game)
 	}
 }
 
+// Load and validate the map.
 static bool	load_map_and_prepare(t_game *game, char *map_file)
 {
 	game->height = 0;
@@ -56,6 +73,7 @@ static bool	load_map_and_prepare(t_game *game, char *map_file)
 	return (true);
 }
 
+// Prepare everything to start the game.
 static bool	init_game(t_game *game, char *map_file)
 {
 	if (!load_map_and_prepare(game, map_file))
@@ -88,5 +106,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.mlx, key_handler, &game);
 	mlx_close_hook(game.mlx, close_window, &game);
 	mlx_loop(game.mlx);
+	cleanup_game(&game);
+	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
 }

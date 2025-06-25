@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Load every graphic sprite.
 void	load_images(t_game *g)
 {
 	mlx_texture_t	*t;
@@ -38,6 +39,7 @@ void	load_images(t_game *g)
 	mlx_delete_texture(t);
 }
 
+// Draw the whole map tile per tile.
 void	render_map(t_game *g)
 {
 	int	x;

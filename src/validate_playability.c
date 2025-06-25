@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Check if the map has unreachable collectibles
 static bool	has_unreachable_collectibles(char **map_copy, int height)
 {
 	int	y;
@@ -32,6 +33,7 @@ static bool	has_unreachable_collectibles(char **map_copy, int height)
 	return (false);
 }
 
+// Check if exit es reacheable.
 static bool	check_exit_reached(char **map_copy, int height)
 {
 	int	y;
@@ -52,6 +54,7 @@ static bool	check_exit_reached(char **map_copy, int height)
 	return (true);
 }
 
+// Check if every collectible is reachable using flood fill.
 bool	validate_collectibles(t_game *game)
 {
 	char	**map_copy;
@@ -69,6 +72,7 @@ bool	validate_collectibles(t_game *game)
 	return (true);
 }
 
+// Check if exit es reacheable using flood fill.
 bool	validate_exit(t_game *game)
 {
 	char	**map_copy;

@@ -23,11 +23,14 @@ void	free_map(char **map, int height)
 {
 	int	i;
 
+	if (!map)
+		return;
 	i = 0;
 	while (i < height)
 		free(map[i++]);
 	free(map);
 }
+
 
 void	close_window(void *param)
 {

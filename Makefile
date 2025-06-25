@@ -66,6 +66,7 @@ check_changes:
 
 # 🔨 Linking
 $(NAME): $(OBJ_DIR) $(OBJS)
+	@$(MAKE) -C $(MLX_DIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(MLX_FLAGS)
 	@echo "✅ Compilation finished: $(NAME)"
 
@@ -87,6 +88,7 @@ $(OBJ_DIR)/utils/%.o: $(PRINTF_DIR)/%.c
 clean:
 	@echo "🧹 Removing object files..."
 	@rm -f $(OBJS)
+	@$(MAKE) -C $(MLX_DIR) clean
 	@echo "✅ Objects cleaned."
 
 fclean: clean

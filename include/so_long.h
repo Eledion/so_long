@@ -22,8 +22,6 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 
-# define WIDTH 800
-# define HEIGHT 600
 # define TILE 64
 # define INITIAL_MAP_CAPACITY 10
 # define MAX_HEIGHT 100

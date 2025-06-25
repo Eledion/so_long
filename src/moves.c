@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Decide if the player can move to a specific tile.
 static bool	can_move_to(t_game *game, int tx, int ty)
 {
 	char	dest;
@@ -30,6 +31,7 @@ static bool	can_move_to(t_game *game, int tx, int ty)
 	return (true);
 }
 
+// Execute the player movement.
 static void	apply_movement(t_game *game, int tx, int ty)
 {
 	char	dest;
@@ -56,6 +58,7 @@ static void	apply_movement(t_game *game, int tx, int ty)
 	}
 }
 
+// Handle an attempt to move the player on the map
 static void	move_player(t_game *game, int dx, int dy)
 {
 	int	tx;
@@ -68,6 +71,7 @@ static void	move_player(t_game *game, int dx, int dy)
 	apply_movement(game, tx, ty);
 }
 
+//Use move_player according a keyboard input.
 void	key_handler(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;

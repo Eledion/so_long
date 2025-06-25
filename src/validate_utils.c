@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Flood fill for every collective.
 void	flood_fill(char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || map[y] == NULL || map[y][x] == '\0')
@@ -27,6 +28,7 @@ void	flood_fill(char **map, int x, int y)
 	flood_fill(map, x, y - 1);
 }
 
+// Flood fill for the exit.
 void	flood_fill_exit(char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || map[y] == NULL || map[y][x] == '\0')

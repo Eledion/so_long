@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Check if the map is rectangular.
 static bool	is_rectangular(char **map, int height)
 {
 	int		i;
@@ -28,6 +29,7 @@ static bool	is_rectangular(char **map, int height)
 	return (true);
 }
 
+// Check if the map is surrounded by walls.
 static bool	is_surrounded_by_walls(char **map, int width, int height)
 {
 	int	x;
@@ -50,6 +52,7 @@ static bool	is_surrounded_by_walls(char **map, int width, int height)
 	return (true);
 }
 
+// Check if the map has valid characters.
 static bool	has_valid_characters(char **map, int height)
 {
 	int			x;
@@ -72,6 +75,7 @@ static bool	has_valid_characters(char **map, int height)
 	return (true);
 }
 
+// Check if the map has every required element.
 static bool	has_required_elements(char **map, int height, t_game *game)
 {
 	int				x;
@@ -99,6 +103,7 @@ static bool	has_required_elements(char **map, int height, t_game *game)
 	return (counts.p == 1 && counts.e == 1 && counts.c >= 1);
 }
 
+// Validates de map using every check function.
 bool	validate_map(const char *filename, t_game *game)
 {
 	if (game->height == 0 || !game->map || !game->map[0]

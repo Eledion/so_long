@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+// Makes sure that the graphic tile at (0,0) is redrawn before rendering.
 static void	redraw_tile_under_text(t_game *game, int tile_x, int tile_y)
 {
 	float	fx;
@@ -32,6 +33,7 @@ static void	redraw_tile_under_text(t_game *game, int tile_x, int tile_y)
 		mlx_image_to_window(game->mlx, game->player_img, fx, fy);
 }
 
+// Update the moves in the text.
 void	update_moves_text(t_game *game)
 {
 	char	*moves_str;
