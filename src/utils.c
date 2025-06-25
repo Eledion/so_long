@@ -38,10 +38,11 @@ void	close_window(void *param)
 
 	game = (t_game *)param;
 	mlx_close_window(game->mlx);
+	cleanup_game(game);
 	mlx_terminate(game->mlx);
-	free_map(game->map, game->height);
 	exit(EXIT_SUCCESS);
 }
+
 
 bool	has_ber_extension(const char *filename)
 {

@@ -106,7 +106,5 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.mlx, key_handler, &game);
 	mlx_close_hook(game.mlx, close_window, &game);
 	mlx_loop(game.mlx);
-	cleanup_game(&game);
-	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
 }

@@ -68,6 +68,7 @@ bool	validate_playability(t_game *game);
 void	flood_fill(char **map, int x, int y);
 void	flood_fill_exit(char **map, int x, int y);
 char	**clone_map(char **map, int height);
+void	cleanup_game(t_game *game);
 
 //utils
 bool	has_ber_extension(const char *filename);
