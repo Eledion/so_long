@@ -12,8 +12,11 @@
 
 #include "so_long.h"
 
+// Cleans the memory.
 void cleanup_game(t_game *game)
 {
+    if (!game || !game->mlx)
+        return ;
     if (game->player_img)
         mlx_delete_image(game->mlx, game->player_img);
     if (game->exit_img)
@@ -24,6 +27,8 @@ void cleanup_game(t_game *game)
         mlx_delete_image(game->mlx, game->wall_img);
     if (game->collectible_img)
         mlx_delete_image(game->mlx, game->collectible_img);
+    if (game->move_text_img)
+        mlx_delete_image(game->mlx, game->move_text_img);
     free_map(game->map, game->height);
 }
 

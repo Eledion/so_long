@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAPS_DIR="maps/maps_err"
+MAPS_DIR="maps/maps_valid"
 EXEC="./so_long"
 
 if [ ! -f "$EXEC" ]; then

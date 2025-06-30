@@ -77,7 +77,7 @@ static char	**load_map_lines(int fd, int *height)
 
 	lines_count = 0;
 	lines_alloc = 10;
-	map = malloc(sizeof(char *) * INITIAL_MAP_CAPACITY);
+	map = malloc(sizeof(char *) * lines_alloc);
 	if (!map)
 		return (NULL);
 	line = get_next_line(fd);

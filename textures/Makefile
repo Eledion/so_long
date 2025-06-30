@@ -1,3 +1,4 @@
+
 # 🛠️ Compiler and flags
 CC      = gcc
 CFLAGS  = -Wall -Wextra -Werror -I include -I lib/MLX42/include -I get_next_line -I ft_printf

@@ -23,7 +23,6 @@
 # include "ft_printf.h"
 
 # define TILE 64
-# define INITIAL_MAP_CAPACITY 10
 # define MAX_HEIGHT 100
 # define MAX_WIDTH 100
 
@@ -45,6 +44,7 @@ typedef struct s_game
 	mlx_image_t	*player_img;
 	mlx_image_t	*collectible_img;
 	mlx_image_t	*exit_img;
+	mlx_image_t *move_text_img;
 }	t_game;
 
 typedef struct s_map_counts
