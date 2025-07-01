@@ -24,13 +24,12 @@ void	free_map(char **map, int height)
 	int	i;
 
 	if (!map)
-		return;
+		return ;
 	i = 0;
 	while (i < height)
 		free(map[i++]);
 	free(map);
 }
-
 
 void	close_window(void *param)
 {
@@ -42,7 +41,6 @@ void	close_window(void *param)
 	mlx_terminate(game->mlx);
 	exit(EXIT_SUCCESS);
 }
-
 
 bool	has_ber_extension(const char *filename)
 {
